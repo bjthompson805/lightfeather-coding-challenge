@@ -10,6 +10,11 @@ app.get('/', async (req, res) => {
     res.sendFile(path.join(__dirname, `${distDir}/index.html`))
 })
 
+/**
+ * Returns a list of supervisors of the format "<jurisdiction> - <lastName>, <firstName>".
+ * Input: None
+ * Output: Success response structure containing array of strings as app_data.
+ */
 app.get('/api/supervisors', async (req, res) => {
     const supervisorsRequest = https.request('https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers', apiResponse => {
         let supervisorsResponseJsonString = ''
@@ -28,7 +33,11 @@ app.get('/api/supervisors', async (req, res) => {
         
             supervisorJurisdictionAndNameStrings = supervisorJurisdictionAndNameStrings.sort()
         
-            res.send(supervisorJurisdictionAndNameStrings); // TODO: Use app_status/app_data/app_message
+            res.send({
+                app_status: 'success',
+                app_data: supervisorJurisdictionAndNameStrings,
+                app_message: 'Retrieved supervisors.'
+            })
         })
     })
     supervisorsRequest.on('error', error => {
@@ -38,6 +47,16 @@ app.get('/api/supervisors', async (req, res) => {
     supervisorsRequest.end()
 })
 
+/**
+ * Validates the given request, and submits for notifications to be sent to the given email/phone number.
+ * Input: JSON object with keys:
+ *     firstName
+ *     lastName
+ *     phoneNumber
+ *     email
+ *     supervisor
+ * Output: Success/error response structure.
+ */
 app.post('/api/submit', async (req, res) => {
     const notificationRequest = req.body;
 

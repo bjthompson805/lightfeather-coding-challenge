@@ -17,8 +17,8 @@ export class AppComponent {
   public errors: any = [];
 
   constructor(private httpClient: HttpClient) {
-    this.httpClient.get('/api/supervisors').subscribe(response => {
-      this.supervisors = response;
+    this.httpClient.get<any>('/api/supervisors').subscribe(response => {
+      this.supervisors = response.app_data;
     });
   }
 
@@ -33,7 +33,6 @@ export class AppComponent {
       phoneNumber: this.phoneNumber,
       supervisor: this.selectedSupervisor
     }).subscribe(response => {
-      console.log(response)
       if (response.app_status === 'success') {
         this.firstName = '';
         this.lastName = '';
