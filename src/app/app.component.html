@@ -1,1 +1,42 @@
-<span>Whatev</span>
+<div class="container">
+  <h1>Supervisor Notification Form</h1>
+  <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+  <div class="alert alert-danger" *ngFor="let error of errors">{{error}}</div>
+  <form>
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label>First Name (required)</label>
+          <input type="text" class="form-control" [(ngModel)]="firstName"/>
+        </div>
+        <div class="col">
+          <label>Last Name (required)</label>
+          <input type="text" class="form-control" [(ngModel)]="lastName"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label>Email</label>
+          <input type="text" class="form-control" [(ngModel)]="email" placeholder="email@domain.com"/>
+        </div>
+        <div class="col">
+          <label>Phone Number</label>
+          <input type="text" class="form-control" [(ngModel)]="phoneNumber" placeholder="123-456-7890"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label>Supervisor (required)</label>
+          <select class="form-control" [(ngModel)]="selectedSupervisor">
+            <option *ngFor="let supervisor of supervisors" [ngValue]="supervisor">{{supervisor}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="submitSupervisorSubscription()">Submit</button>
+  </form>
+</div>
